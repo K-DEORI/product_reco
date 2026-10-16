@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Caveat, DM_Sans, Fraunces } from "next/font/google";
 import { AuthProvider } from "./auth-context";
+import { CartProvider } from "./cart-context";
 import "./globals.css";
 
 const display = Fraunces({ subsets: ["latin"], variable: "--font-display" });
@@ -16,7 +17,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable}`}>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );

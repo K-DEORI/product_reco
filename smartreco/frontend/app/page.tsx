@@ -5,9 +5,11 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   ArrowRight, BookOpen, Heart, ImageOff, Laptop, Leaf, Menu, Search, Shirt, Sofa, Star, Watch, X,
+  ShoppingCart, Minus, Plus, Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "./auth-context";
+import { useCart } from "./cart-context";
 
 /* ------------------------------------------------------------------ */
 /* Types & constants                                                   */
@@ -149,51 +151,58 @@ function Skeleton({ aspect }: { aspect: string }) {
 
 function ProductCard({ product, saved, onToggle }: { product: Product; saved: boolean; onToggle: () => void }) {
   return (
-    <motion.article
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.25 }}
-      className="group"
-    >
-      <div className={`relative overflow-hidden rounded-2xl bg-warm-beige-deep shadow-soft ${ASPECTS[product.id % ASPECTS.length]}`}>
-        <ProductImage
-          src={product.image_url}
-          alt={product.title}
-          className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
-        />
-        {product.is_recommended && (
-          <span className="absolute left-3 top-3 rounded-full bg-accent-terracotta-soft/95 px-3 py-1 text-xs font-medium text-accent-terracotta-dark backdrop-blur">
-            Recommended
-          </span>
-        )}
-        <motion.button
-          type="button"
-          whileTap={{ scale: 0.85 }}
-          onClick={onToggle}
-          aria-pressed={saved}
-          aria-label={saved ? `Remove ${product.title} from wishlist` : `Add ${product.title} to wishlist`}
-          className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-warm-beige-card/90 shadow-soft backdrop-blur"
-        >
-          <Heart className={`h-[18px] w-[18px] ${saved ? "fill-accent-terracotta text-accent-terracotta" : "text-accent-terracotta-dark"}`} />
-        </motion.button>
-      </div>
-
-      <div className="px-0.5 pt-3">
-        <h3 className="font-display text-[17px] leading-snug">{product.title}</h3>
-        <p className="mt-0.5 text-sm text-ink">{product.brand}</p>
-        <p className="text-sm text-ink-muted">{product.category}</p>
-        <div className="mt-2 flex items-center justify-between">
-          <span className="flex items-center gap-1 text-sm text-ink-muted">
-            <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden />
-            <span className="font-medium text-ink">{product.rating.toFixed(1)}</span>
-            <span aria-label={`${product.reviews_count} reviews`}>({compact(product.reviews_count)})</span>
-          </span>
-          <span className="font-medium">{inr.format(product.price)}</span>
+    <Link href={`/products/${product.id}`} className="group block">
+      <motion.article
+        layout
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+        className="relative"
+      >
+        <div className={`relative overflow-hidden rounded-2xl bg-warm-beige-deep shadow-soft ${ASPECTS[product.id % ASPECTS.length]}`}>
+          <ProductImage
+            src={product.image_url}
+            alt={product.title}
+            className="h-full w-full transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none"
+          />
+          {product.is_recommended && (
+            <span className="absolute left-3 top-3 rounded-full bg-accent-terracotta-soft/95 px-3 py-1 text-xs font-medium text-accent-terracotta-dark backdrop-blur">
+              Recommended
+            </span>
+          )}
+          <div className="absolute right-3 top-3 flex flex-col gap-2 z-10">
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.85 }}
+              onClick={(e) => {
+                e.preventDefault();
+                onToggle();
+              }}
+              aria-pressed={saved}
+              aria-label={saved ? `Remove ${product.title} from wishlist` : `Add ${product.title} to wishlist`}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-warm-beige-card/90 shadow-soft backdrop-blur"
+            >
+              <Heart className={`h-[18px] w-[18px] ${saved ? "fill-accent-terracotta text-accent-terracotta" : "text-accent-terracotta-dark"}`} />
+            </motion.button>
+          </div>
         </div>
-      </div>
-    </motion.article>
+
+        <div className="px-0.5 pt-3">
+          <h3 className="font-display text-[17px] leading-snug group-hover:text-accent-terracotta transition-colors">{product.title}</h3>
+          <p className="mt-0.5 text-sm text-ink">{product.brand}</p>
+          <p className="text-sm text-ink-muted">{product.category}</p>
+          <div className="mt-2 flex items-center justify-between">
+            <span className="flex items-center gap-1 text-sm text-ink-muted">
+              <Star className="h-3.5 w-3.5 fill-amber-500 text-amber-500" aria-hidden />
+              <span className="font-medium text-ink">{product.rating.toFixed(1)}</span>
+              <span aria-label={`${product.reviews_count} reviews`}>({compact(product.reviews_count)})</span>
+            </span>
+            <span className="font-medium">{inr.format(product.price)}</span>
+          </div>
+        </div>
+      </motion.article>
+    </Link>
   );
 }
 
@@ -218,7 +227,12 @@ function Header(props: {
 }) {
   const { search, onSearch, wishlistCount, showSaved, onToggleSaved, onForYou } = props;
   const [open, setOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
   const { user, logout } = useAuth();
+  const { cart, totalItems, updateQuantity, removeItem } = useCart();
+  const { catalog } = useRecommendations("", "Picked for you", "relevance", null, false); // This is a hack, see below
+
+
 
   const searchField = (
     <label className="flex h-11 items-center gap-2 rounded-full bg-warm-beige-deep px-4 shadow-soft">
@@ -296,6 +310,80 @@ function Header(props: {
               </span>
             )}
           </button>
+
+          <Dialog.Root open={cartOpen} onOpenChange={setCartOpen}>
+            <Dialog.Trigger asChild>
+              <button aria-label={`Cart, ${totalItems} items`} className="relative rounded-full p-2 hover:bg-warm-beige-deep transition-colors">
+                <ShoppingCart className="h-5 w-5 text-ink-muted" />
+                {totalItems > 0 && (
+                  <span className="absolute -right-0.5 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-accent-terracotta px-1 text-[10px] font-semibold text-white">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/30 data-[state=open]:animate-fade-in" />
+              <Dialog.Content className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-warm-beige p-6 font-sans shadow-lift data-[state=open]:animate-drawer-in">
+                <div className="flex items-center justify-between mb-6">
+                  <Dialog.Title className="font-display text-2xl">Your Cart</Dialog.Title>
+                  <Dialog.Close className="rounded-full p-2 hover:bg-warm-beige-deep" aria-label="Close cart"><X className="h-5 w-5" /></Dialog.Close>
+                </div>
+                <Dialog.Description className="sr-only">Shopping cart contents</Dialog.Description>
+
+                <div className="flex-1 overflow-y-auto space-y-4">
+                  {cart.length === 0 ? (
+                    <div className="flex h-full flex-col items-center justify-center text-center py-20">
+                      <ShoppingCart className="h-12 w-12 text-ink-muted/40 mb-4" />
+                      <p className="text-lg text-ink-muted">Your cart is empty</p>
+                      <Link href="/" onClick={() => setCartOpen(false)} className="mt-4 text-accent-terracotta hover:underline">Start discovering</Link>
+                    </div>
+                  ) : (
+                    cart.map((item) => {
+                      const product = catalog?.find((p) => p.id === item.id);
+                      return (
+                        <div key={item.id} className="flex items-center gap-4 rounded-2xl bg-warm-beige-deep p-3 shadow-soft">
+                          <div className="h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-warm-beige-card">
+                            <img src={product?.image_url ?? `/products/${item.id}.jpg`} alt={product?.title ?? ""} className="h-full w-full object-cover opacity-80" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-display text-sm truncate">{product?.title ?? `Product ${item.id}`}</p>
+                            <div className="flex items-center justify-between mt-1">
+                              <div className="flex items-center gap-2">
+                                <button onClick={() => updateQuantity(item.id, -1)} className="p-1 rounded-md hover:bg-warm-beige-card"><Minus className="h-3 w-3" /></button>
+                                <span className="text-xs font-medium w-4 text-center">{item.quantity}</span>
+                                <button onClick={() => updateQuantity(item.id, 1)} className="p-1 rounded-md hover:bg-warm-beige-card"><Plus className="h-3 w-3" /></button>
+                              </div>
+                              <button onClick={() => removeItem(item.id)} className="text-accent-terracotta hover:text-accent-terracotta-dark p-1">
+                                <Trash2 className="h-3.5 w-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+
+                  )}
+                </div>
+
+                {cart.length > 0 && (
+                  <div className="mt-auto pt-6 border-t border-ink/10">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-ink-muted">Subtotal</span>
+                      <span className="text-2xl font-display font-semibold">
+                        {/* Price calculation would happen here if we had product data in the cart state */}
+                        Calculated at checkout
+                      </span>
+                    </div>
+                    <button className="w-full rounded-full bg-accent-terracotta py-4 font-display text-lg text-white shadow-soft transition-colors hover:bg-accent-terracotta-dark">
+                      Proceed to Checkout
+                    </button>
+                  </div>
+                )}
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+
           {user ? (
             <div className="flex items-center gap-2">
               <span

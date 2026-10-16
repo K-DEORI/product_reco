@@ -83,6 +83,14 @@ def list_products(db: Session = Depends(get_db)):
     return db.query(Product).order_by(Product.id).all()
 
 
+@app.get("/api/products/{product_id}", response_model=ProductOut)
+def get_product(product_id: int, db: Session = Depends(get_db)):
+    product = db.get(Product, product_id)
+    if not product:
+        raise HTTPException(status_code=404, detail="Product not found")
+    return product
+
+
 # --------------------------------------------------------------------------- #
 # Auth
 # --------------------------------------------------------------------------- #
