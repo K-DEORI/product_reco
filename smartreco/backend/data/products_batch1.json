@@ -1,0 +1,67 @@
+[
+  {
+    "title": "Nova Pulse Smartwatch",
+    "brand": "Nova",
+    "category": "Electronics",
+    "price": 3499,
+    "rating": 4.2,
+    "reviews_count": 1250,
+    "description": "Stay connected with this sleek fitness tracker featuring heart rate monitoring, sleep analysis, and a bright touchscreen. The soft silicone strap ensures comfort during workouts or daily wear. Compatible with most modern smartphones for seamless notification syncing.",
+    "tags": ["smartwatch", "wearable", "fitness", "tracker", "watch", "workout", "gym", "silicone", "gadget", "black"],
+    "is_recommended": true,
+    "image_file": "nova-pulse-smartwatch.jpg",
+    "image_prompt": "Studio product photo of a black silicone fitness smartwatch with a vibrant screen, centred with plenty of margin on a soft warm beige background (#F3ECE2), gentle natural window light, soft shadow, square composition, no text, no logo, no watermark, no people or hands"
+  },
+  {
+    "title": "Auris Echo Wireless Earbuds",
+    "brand": "Auris",
+    "category": "Electronics",
+    "price": 1999,
+    "rating": 4.5,
+    "reviews_count": 3400,
+    "description": "Compact true wireless earphones offering clear audio and active noise isolation. The matte finish charging case slips easily into your pocket, providing up to twenty hours of battery life. Ideal for commuting, office work, or listening to podcasts.",
+    "tags": ["earbuds", "earphones", "wireless", "true wireless", "noise isolation", "audio", "music", "commute", "office", "matte", "compact", "white"],
+    "is_recommended": false,
+    "image_file": "auris-echo-wireless-earbuds.jpg",
+    "image_prompt": "Studio product photo of minimal white wireless earbuds and their matte charging case, centred with plenty of margin on a soft warm beige background (#F3ECE2), gentle natural window light, soft shadow, square composition, no text, no logo, no watermark, no people or hands"
+  },
+  {
+    "title": "Voltix Core Power Bank 20000mAh",
+    "brand": "Voltix",
+    "category": "Electronics",
+    "price": 2499,
+    "rating": 4.6,
+    "reviews_count": 890,
+    "description": "High-capacity portable charger capable of reviving your smartphone multiple times on a single charge. It features dual output ports for simultaneous charging and a textured outer shell for a secure grip during travel. Essential for long flights or road trips.",
+    "tags": ["powerbank", "power bank", "charger", "battery", "portable", "travel", "gadget", "usb", "flight", "textured"],
+    "is_recommended": false,
+    "image_file": "voltix-core-power-bank-20000mah.jpg",
+    "image_prompt": "Studio product photo of a dark grey textured rectangular power bank, centred with plenty of margin on a soft warm beige background (#F3ECE2), gentle natural window light, soft shadow, square composition, no text, no logo, no watermark, no people or hands"
+  },
+  {
+    "title": "Resonance SoundBlock Speaker",
+    "brand": "Resonance",
+    "category": "Electronics",
+    "price": 4999,
+    "rating": 4.1,
+    "reviews_count": 430,
+    "description": "A portable audio speaker delivering deep bass and crisp highs. Wrapped in a durable fabric mesh, it is water-resistant and built to withstand outdoor environments. The built-in strap makes it easy to attach to your backpack while hiking or camping.",
+    "tags": ["speaker", "audio", "bluetooth", "wireless", "portable", "outdoor", "camping", "hiking", "water resistant", "mesh", "music"],
+    "is_recommended": false,
+    "image_file": "resonance-soundblock-speaker.jpg",
+    "image_prompt": "Studio product photo of a rugged fabric mesh cylindrical bluetooth speaker with a carry strap, centred with plenty of margin on a soft warm beige background (#F3ECE2), gentle natural window light, soft shadow, square composition, no text, no logo, no watermark, no people or hands"
+  },
+  {
+    "title": "ErgoLift Aluminum Laptop Stand",
+    "brand": "ErgoLift",
+    "category": "Electronics",
+    "price": 1299,
+    "rating": 4.8,
+    "reviews_count": 2100,
+    "description": "Adjustable desk riser crafted from solid aluminium alloy. It elevates your computer screen to eye level, improving posture and reducing neck strain during long work hours. The open design enhances airflow to keep your device cool while maintaining a minimalist aesthetic.",
+    "tags": ["stand", "laptop stand", "laptop accessory", "riser", "ergonomic", "office", "desk", "aluminium", "aluminum", "work", "minimalist", "silver"],
+    "is_recommended": false,
+    "image_file": "ergolift-aluminum-laptop-stand.jpg",
+    "image_prompt": "Studio product photo of a sleek silver aluminium laptop stand, centred with plenty of margin on a soft warm beige background (#F3ECE2), gentle natural window light, soft shadow, square composition, no text, no logo, no watermark, no people or hands"
+  }
+]

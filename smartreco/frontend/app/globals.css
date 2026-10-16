@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-warm-beige font-sans text-ink antialiased; }
+  :focus-visible { @apply outline-none ring-2 ring-accent-terracotta ring-offset-2 ring-offset-warm-beige; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}

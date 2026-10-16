@@ -1,0 +1,8 @@
+{
+  "name": "smartreco",
+  "private": true,
+  "scripts": {
+    "start": "node run.js",
+    "dev": "node run.js"
+  }
+}
