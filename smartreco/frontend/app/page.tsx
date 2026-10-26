@@ -39,7 +39,7 @@ const SORTS: { value: SortKey; label: string }[] = [
 const NAV = [
   { label: "Discover", href: "#top" },
   { label: "Categories", href: "#categories" },
-  { label: "For You", href: "#explore" },
+  { label: "aww", href: "#explore" },
   { label: "About", href: "#about" },
 ];
 // Varying image ratios give the grid its gentle, collage-like rhythm.
